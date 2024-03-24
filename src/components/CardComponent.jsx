@@ -1,100 +1,67 @@
-import React, { useState, useEffect } from "react";
-import "tailwindcss/tailwind.css";
+import { useState } from "react";
 
-export default function CardComponent() {
-  const [initialMinutes, setInitialMinutes] = useState(30);
-  const [minutes, setMinutes] = useState(initialMinutes);
-  const [seconds, setSeconds] = useState(0);
-  const [isActive, setIsActive] = useState(false);
-  useEffect(() => {
-    let intervalId;
+const TodoList = () => {
+  const [tasks, setTasks] = useState([]);
+  const [inputValue, setInputValue] = useState("");
 
-    if (isActive) {
-      intervalId = setInterval(() => {
-        if (seconds === 0) {
-          if (minutes === 0) {
-            clearInterval(intervalId);
-            // You can add code to handle when the timer finishes
-          } else {
-            setMinutes((prevMinutes) => prevMinutes - 1);
-            setSeconds(59);
-          }
-        } else {
-          setSeconds((prevSeconds) => prevSeconds - 1);
-        }
-      }, 1000);
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleAddTask = () => {
+    if (inputValue.trim() !== "") {
+      setTasks([...tasks, inputValue]);
+      setInputValue("");
     }
-
-    return () => clearInterval(intervalId);
-  }, [isActive, minutes, seconds]);
-
-  const toggleTimer = () => {
-    setIsActive(!isActive);
   };
 
-  const resetTimer = () => {
-    setIsActive(false);
-    setMinutes(25);
-    setSeconds(0);
-  };
-
-  const handleTimerChange = (newMinutes) => {
-    setIsActive(false);
-    setInitialMinutes(newMinutes);
-    setMinutes(newMinutes);
-    setSeconds(0);
+  const handleRemoveTask = (index) => {
+    const newTasks = [...tasks];
+    newTasks.splice(index, 1);
+    setTasks(newTasks);
   };
 
   return (
-    <div>
-      <div className="flex flex-col h-96 justify-center p-6 space-y-4">
-        <div className="flex flex-col items-center space-y-2">
-          <h2 className="text-2xl font-bold">Pomodoro Timer</h2>
-          <p className="text-sm leading-none text-gray-500 dark:text-gray-400" />
-        </div>
+    <div className="flex flex-col h-90 justify-center p-6 space-y-4 border border-black rounded-lg">
+      <div className="flex flex-col items-center space-y-2">
+        <h2 className="text-5xl font-bold">Todo List</h2>
+        <p className="text-sm leading-none text-gray-500 dark:text-gray-400" />
         <div className="flex items-center justify-center space-x-4">
+          <input
+            type="text"
+            value={inputValue}
+            onChange={handleInputChange}
+            placeholder=" Enter task... "
+            className="border border-black rounded-lg px-2 py-1 text-gray-500 placeholder-gray-400 "
+          />
           <button
-            className="px-4 py-2 rounded-lg border border-black bg-black text-white"
-            onClick={() => handleTimerChange(30)}
+            className="px-2 py-1 rounded-lg border border-black bg-black text-white"
+            onClick={handleAddTask}
           >
-            30 minutes
-          </button>
-          <button
-            className="px-4 py-2 rounded-lg border border-black bg-black text-white"
-            onClick={() => handleTimerChange(40)}
-          >
-            40 minutes
-          </button>
-          <button
-            className="px-4 py-2 rounded-lg border border-black bg-black text-white"
-            onClick={() => handleTimerChange(50)}
-          >
-            50 minutes
+            Add Task
           </button>
         </div>
-        <div className="flex justify-around">
-          <h1>{`${minutes.toString().padStart(2, "0")}:${seconds
-            .toString()
-            .padStart(2, "0")}`}</h1>
-        </div>
-        <div className="flex items-center justify-center space-x-4">
-          <button
-            className="px-4 py-2 rounded-lg border border-black bg-black text-white"
-            onClick={toggleTimer}
-            size="sm"
-          >
-            {isActive ? "Pause" : "Start"}
-          </button>
-
-          <button
-            className="px-4 py-2 rounded-lg border border-black bg-black text-white"
-            size="sm"
-            onClick={resetTimer}
-          >
-            Reset
-          </button>
+        <div className="overflow-auto max-h-80">
+          <ul className="overflow-auto">
+            {tasks.map((task, index) => (
+              <li
+                className="flex items-center justify-between px-4 py-2 text-gray-500 whitespace-normal w-64"
+                key={index}
+              >
+                {task}
+                <button
+                  className="px-2 py-1 rounded-lg border border-black bg-black text-white"
+                  onClick={() => handleRemoveTask(index)}
+                >
+                  Remove
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default TodoList;

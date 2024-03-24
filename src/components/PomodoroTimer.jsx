@@ -35,7 +35,7 @@ export default function CardComponent() {
 
   const resetTimer = () => {
     setIsActive(false);
-    setMinutes(5);
+    setMinutes(initialMinutes);
     setSeconds(0);
   };
 
@@ -46,32 +46,28 @@ export default function CardComponent() {
     setSeconds(0);
   };
 
-  const totalSeconds = minutes * 60 + seconds;
-
-  const initialWidth = 100;
-
   return (
     <div>
-      <div className="flex flex-col h-96 justify-center p-6 space-y-4">
+      <div className="flex flex-col h-96 justify-center p-6 space-y-4 pb-24  border border-black rounded-lg">
         <div className="flex flex-col items-center space-y-2">
-          <h2 className="text-2xl font-bold">Pomodoro Timer</h2>
+          <h2 className="text-5xl font-bold">Pomodoro Timer</h2>
           <p className="text-sm leading-none text-gray-500 dark:text-gray-400" />
         </div>
         <div className="flex items-center justify-center space-x-4">
           <button
-            className="px-4 py-2 rounded-lg border border-black bg-black text-white"
+            className="px-2 py-1 rounded-lg border border-black bg-black text-white"
             onClick={() => handleTimerChange(30)}
           >
             30 minutes
           </button>
           <button
-            className="px-4 py-2 rounded-lg border border-black bg-black text-white"
+            className="px-2 py-1 rounded-lg border border-black bg-black text-white"
             onClick={() => handleTimerChange(40)}
           >
             40 minutes
           </button>
           <button
-            className="px-4 py-2 rounded-lg border border-black bg-black text-white"
+            className="px-2 py-1 rounded-lg border border-black bg-black text-white"
             onClick={() => handleTimerChange(50)}
           >
             50 minutes
@@ -83,24 +79,9 @@ export default function CardComponent() {
             .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`}</h1>
         </div>
 
-        <div className="flex items-center justify-center">
-          <progress
-            className="w-1/4 px-4 py-2 rounded-lg border border-black"
-            value={totalSeconds}
-            max={initialMinutes * 60}
-            style={{
-              backgroundColor: "blue",
-              width: `${
-                initialWidth -
-                (totalSeconds / (initialMinutes * 60)) * initialWidth
-              }%`,
-            }}
-          />
-        </div>
-
         <div className="flex items-center justify-center space-x-4">
           <button
-            className="px-4 py-2 rounded-lg border border-black bg-black text-white"
+            className="px-2 py-1 rounded-lg border border-black bg-black text-white"
             onClick={toggleTimer}
             size="sm"
           >
@@ -108,7 +89,7 @@ export default function CardComponent() {
           </button>
 
           <button
-            className="px-4 py-2 rounded-lg border border-black bg-black text-white"
+            className="px-2 py-1 rounded-lg border border-black bg-black text-white"
             size="sm"
             onClick={resetTimer}
           >
