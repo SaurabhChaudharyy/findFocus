@@ -1,5 +1,6 @@
 import PomodoroTimer from "./components/PomodoroTimer";
 import TodoList from "./components/CardComponent";
+import WebsiteBlocker from "./components/WebsiteBlocker";
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
         <h1 className="text-5xl font-bold text-center">Find Focus</h1>
         <PomodoroTimer />
         <TodoList />
+        <WebsiteBlocker />
       </div>
     </>
   );
