@@ -2,19 +2,16 @@
   "manifest_version": 3,
   "name": "Website Blocker",
   "version": "1.0",
-  "description": "Block websites specified by the user.",
-  "permissions": [
-    "storage",
-    "activeTab"
-  ],
+  "description": "Block distracting websites to improve focus",
+  "permissions": ["storage", "webRequest", "declarativeNetRequest"],
   "action": {
-    "default_popup": "popup.html"
+    "default_title": "Website Blocker"
   },
   "background": {
-    "service_worker": "popup.js"
+    "service_worker": "background.js"
   },
-  "options_ui": {
-    "page": "popup.html",
-    "open_in_tab": false
-  }
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["content.js"]
+  }]
 }
